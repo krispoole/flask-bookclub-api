@@ -9,4 +9,4 @@ db = SQLAlchemy(app)
 
 @app.route('/')
 def hello():
-    return 'Hello!'
+    return 'navigate to the /graphql endpoint to access the user interface'
