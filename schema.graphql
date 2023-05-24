@@ -5,8 +5,15 @@ schema {
 
 type User {
     id: ID!
-    userName: String!
+    email: String!
     password: String!
+}
+
+type Book {
+    id: ID!
+    title: String!
+    author: String!
+    
 }
 
 type UserResult {
@@ -32,6 +39,6 @@ type DeleteUserResult {
 }
 
 type Mutation {
-    createUser(userName: String!, password: String!): UserResult!
+    createUser(email: String!, password: String!): UserResult!
     deleteUser(userId: ID!): DeleteUserResult!
 }

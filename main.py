@@ -7,18 +7,23 @@ from ariadne import load_schema_from_path, make_executable_schema, graphql_sync,
 from ariadne.explorer import ExplorerPlayground
 
 from flask import request, jsonify
-from api.queries.user_query import resolve_users
+from api.queries.user_queries import resolve_user, resolve_users
+from api.mutations.user_mutations import resolve_create_user
 
 # Added this to match current API structure with ariadne
 PLAYGROUND_HTML = ExplorerPlayground(title="Book Club API").html(None)
 
 query = ObjectType("Query")
 
+query.set_field("user", resolve_user)
 query.set_field("users", resolve_users)
+
+mutation = ObjectType("Mutation")
+mutation.set_field("createUser", resolve_create_user)
 
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_executable_schema(
-    type_defs, query, snake_case_fallback_resolvers
+    type_defs, query, mutation, snake_case_fallback_resolvers
 )
 
 @app.route("/graphql", methods=["GET"])
