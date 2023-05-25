@@ -17,6 +17,14 @@ type Book {
     genre: String
 }
 
+type Review {
+    id: ID!
+    title: String
+    body: String
+    rating: Int
+    date: String
+}
+
 type UserResult {
     success: Boolean!
     errors: [String]
@@ -41,11 +49,25 @@ type BooksResult {
     books: [Book]
 }
 
+type ReviewResult {
+    success: Boolean!
+    errors: [String]
+    review: Review
+}
+
+type ReviewsResult {
+    success: Boolean!
+    errors: [String]
+    reviews: [Review]
+}
+
 type Query {
     users: UsersResult
     user(userId: ID!): UserResult
     books: BooksResult
     book(bookId: ID!): BookResult
+    reviews: ReviewsResult
+    review(reviewId: ID!): ReviewResult
 }
 
 type DeleteUserResult {
@@ -58,9 +80,16 @@ type DeleteBookResult {
     errors: [String]
 }
 
+type DeleteReviewResult {
+    success: Boolean!
+    errors: [String]
+}
+
 type Mutation {
     createUser(email: String!, password: String!): UserResult!
     deleteUser(userId: ID!): DeleteUserResult!
     createBook(title: String!, author: String!, yearOfPublication: Int, genre: String): BookResult!
     deleteBook(bookId: ID!): DeleteBookResult!
+    createReview(title: String!, body: String!, rating: Int!, date: String!): ReviewResult!
+    deleteReview(reviewId: ID!): DeleteReviewResult!
 }

@@ -9,9 +9,11 @@ from ariadne.explorer import ExplorerPlayground
 from flask import request, jsonify
 from api.queries.user_queries import resolve_user, resolve_users
 from api.queries.book_queries import resolve_book, resolve_books
+from api.queries.review_queries import resolve_review, resolve_reviews
 
 from api.mutations.user_mutations import resolve_create_user, resolve_delete_user
 from api.mutations.book_mutations import resolve_create_book, resolve_delete_book
+from api.mutations.review_mutations import resolve_create_review, resolve_delete_review
 
 with app.app_context():
     db.create_all()
@@ -25,12 +27,16 @@ query.set_field("user", resolve_user)
 query.set_field("users", resolve_users)
 query.set_field("book", resolve_book)
 query.set_field("books", resolve_books)
+query.set_field("review", resolve_review)
+query.set_field("reviews", resolve_reviews)
 
 mutation = ObjectType("Mutation")
 mutation.set_field("createUser", resolve_create_user)
 mutation.set_field("deleteUser", resolve_delete_user)
 mutation.set_field("createBook", resolve_create_book)
 mutation.set_field("deleteBook", resolve_delete_book)
+mutation.set_field("createReview", resolve_create_review)
+mutation.set_field("deleteReview", resolve_delete_review)
 
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_executable_schema(

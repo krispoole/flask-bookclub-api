@@ -36,6 +36,6 @@ def resolve_delete_book(obj, info, book_id):
     except AttributeError:
         payload = {
             "success": False,
-            "errors": [f"User matching id {book_id} not found"]
+            "errors": [f"Book matching id {book_id} not found"]
         }
     return payload
