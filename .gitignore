@@ -29,4 +29,4 @@ generated/
 Thumbs.db
 
 # Ignore database files
-*Db.*
+*.db
