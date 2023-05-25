@@ -1,5 +1,4 @@
 from api import app, db
-from api.models import user
 from ariadne import load_schema_from_path, make_executable_schema, graphql_sync, snake_case_fallback_resolvers, ObjectType
 
 # This is a subsitute for ariadne.constants import PLAYGROUND_HTML
@@ -10,10 +9,12 @@ from flask import request, jsonify
 from api.queries.user_queries import resolve_user, resolve_users
 from api.queries.book_queries import resolve_book, resolve_books
 from api.queries.review_queries import resolve_review, resolve_reviews
+from api.queries.club_queries import resolve_club, resolve_clubs
 
-from api.mutations.user_mutations import resolve_create_user, resolve_delete_user
+from api.mutations.user_mutations import resolve_create_user, resolve_delete_user, resolve_add_club_to_user
 from api.mutations.book_mutations import resolve_create_book, resolve_delete_book
 from api.mutations.review_mutations import resolve_create_review, resolve_delete_review
+from api.mutations.club_mutations import resolve_create_club, resolve_delete_club
 
 with app.app_context():
     db.create_all()
@@ -29,14 +30,19 @@ query.set_field("book", resolve_book)
 query.set_field("books", resolve_books)
 query.set_field("review", resolve_review)
 query.set_field("reviews", resolve_reviews)
+query.set_field("club", resolve_club)
+query.set_field("clubs", resolve_clubs)
 
 mutation = ObjectType("Mutation")
 mutation.set_field("createUser", resolve_create_user)
+mutation.set_field("addClubToUser", resolve_add_club_to_user)
 mutation.set_field("deleteUser", resolve_delete_user)
 mutation.set_field("createBook", resolve_create_book)
 mutation.set_field("deleteBook", resolve_delete_book)
 mutation.set_field("createReview", resolve_create_review)
 mutation.set_field("deleteReview", resolve_delete_review)
+mutation.set_field("createClub", resolve_create_club)
+mutation.set_field("deleteClub", resolve_delete_club)
 
 type_defs = load_schema_from_path("schema.graphql")
 schema = make_executable_schema(

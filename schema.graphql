@@ -7,6 +7,7 @@ type User {
     id: ID!
     email: String!
     password: String!
+    clubs: [Club]
 }
 
 type Book {
@@ -25,6 +26,14 @@ type Review {
     date: String
 }
 
+type Club {
+    id: ID!
+    name: String!
+    description: String!
+    currentBook: Book
+    users: [User]
+}
+
 type UserResult {
     success: Boolean!
     errors: [String]
@@ -35,6 +44,12 @@ type UsersResult {
     success: Boolean!
     errors: [String]
     users: [User]
+}
+
+type UserUpdateResponse {
+    success: Boolean!
+    user: User
+    errors: [String]
 }
 
 type BookResult {
@@ -61,6 +76,18 @@ type ReviewsResult {
     reviews: [Review]
 }
 
+type ClubResult {
+    success: Boolean!
+    errors: [String]
+    club: Club
+}
+
+type ClubsResult {
+    success: Boolean!
+    errors: [String]
+    clubs: [Club]
+}
+
 type Query {
     users: UsersResult
     user(userId: ID!): UserResult
@@ -68,6 +95,8 @@ type Query {
     book(bookId: ID!): BookResult
     reviews: ReviewsResult
     review(reviewId: ID!): ReviewResult
+    clubs: ClubsResult
+    club(clubId: ID!): ClubResult
 }
 
 type DeleteUserResult {
@@ -85,11 +114,19 @@ type DeleteReviewResult {
     errors: [String]
 }
 
+type DeleteClubResult {
+    success: Boolean!
+    errors: [String]
+}
+
 type Mutation {
     createUser(email: String!, password: String!): UserResult!
+    addClubToUser(userId: Int!, clubId: Int!): UserUpdateResponse!
     deleteUser(userId: ID!): DeleteUserResult!
     createBook(title: String!, author: String!, yearOfPublication: Int, genre: String): BookResult!
     deleteBook(bookId: ID!): DeleteBookResult!
     createReview(title: String!, body: String!, rating: Int!, date: String!): ReviewResult!
     deleteReview(reviewId: ID!): DeleteReviewResult!
+    createClub(name: String!, description: String!): ClubResult!
+    deleteClub(clubId: ID!): DeleteClubResult!
 }
